@@ -21,12 +21,7 @@ namespace MergeCars
         private void button1_Click(object sender, EventArgs e)
         {
             string folderPath = textBox1.Text;
-            if (folderPath == "") {
-                MessageBox.Show("Invalid directory path");
-                return;
-            }
-
-            if (!Directory.Exists(folderPath)) {
+            if (folderPath == "" || !Directory.Exists(folderPath)) {
                 MessageBox.Show("Invalid directory path");
                 return;
             }
@@ -34,8 +29,7 @@ namespace MergeCars
             button1.Visible = false;
             textBox1.Visible = false;
             listBox1.Visible = true;
-            var xd = new Size(528, 225);
-            this.Size = xd;
+            this.Size = new Size(528, 225);
 
             addToList("Directory found: " + folderPath);
 
@@ -58,7 +52,6 @@ namespace MergeCars
 
             File.AppendAllText(manifest, "\r\nresource_manifest_version '77731fab-63ca-442c-a67b-abc70f28dfa5'\r\n\r\nfiles {\r\n");
 
- 
             string[] cars = Directory.GetDirectories(path);
             var count = 0;
 
@@ -80,7 +73,7 @@ namespace MergeCars
                 string streamPath = path + @"\.MERGED\stream\[" + folder + "]";
                 Directory.CreateDirectory(streamPath);
 
-                try { Copy(file + @"\stream", streamPath); count += 1; }
+                try { Copy(file + @"\stream", streamPath); count++; }
                 catch { Directory.Delete(streamPath, false); addToList("!!! Couldn't retrieve streaming assets from " + folder + " !!!"); }
             }
 
